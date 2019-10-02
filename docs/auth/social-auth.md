@@ -64,9 +64,12 @@ export async function googleLogin() {
     await GoogleSignin.configure();
 
     const data = await GoogleSignin.signIn();
+    
+    //use this for ver 5.5++
+    const userToken = await GoogleSignin.getTokens();
 
     // create a new firebase credential with the token
-    const credential = firebase.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken)
+    const credential = firebase.auth.GoogleAuthProvider.credential(userToken.idToken, userToken.accessToken)
     // login with credential
     const firebaseUserCredential = await firebase.auth().signInWithCredential(credential);
 
